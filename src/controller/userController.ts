@@ -5,9 +5,9 @@ import jwt from "jsonwebtoken";
 import userModel from "../models/userModel";
 
 
-const demo=async(req: Request, res: Response)=>{
-       res.send("demo succcess")
-}
+const demo = async (req: Request, res: Response) => {
+  res.send("demo succcess");
+};
 
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -40,10 +40,9 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
     // Generate JWT token
     const token = jwt.sign(
       { userId: newUser._id, email: newUser.email },
-      process.env.JWT_SECRET as string, 
-      { expiresIn: "1h" } 
+      process.env.JWT_SECRET as string,
+      { expiresIn: "1h" }
     );
-
 
     res.status(201).json({
       message: "User created successfully",
@@ -51,27 +50,40 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
       token,
     });
   } catch (error) {
-   
     next(error);
   }
 };
 
-const loginUser = async(req:Request, res: Response, next:NextFunction) => {
-  const{ email, password} = req.body;
+const loginUser = async (req: Request, res: Response, next: NextFunction) => {
+  const { email, password } = req.body;
 
-  if (!email || !password) {
-    const error = createHttpError(400, "All fields are required");
-    return next(error);
+  try {
+    if (!email || !password) {
+      throw createHttpError(400, "All fields are required");
+    }
+  
+    const user = await userModel.findOne({ email });
+  
+    if (!user) {
+      throw createHttpError(404, "User not found");
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password)
+    if(!isPasswordMatch){
+      return next(createHttpError(404,"Password is incorrect"))
+    }
+
+    //create accesstoken
+    const token = jwt.sign(
+      { userId: user._id, email: user.email },
+      process.env.JWT_SECRET as string,
+      { expiresIn: "1h" }
+    );
+  
+    res.json({ accesstoken: token });
+  } catch (error) {
+    next(error); 
   }
+}  
 
-  const user = await userModel.findOne({ email});
-
-  if(!user){
-    const error = createHttpError(400, "User not found");
-    return next(error);
-  }
-
-
-}
-
-export { demo,createUser, loginUser };
+export { demo, createUser, loginUser };
