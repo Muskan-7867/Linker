@@ -1,13 +1,17 @@
-import express from "express"
-const router = express.Router()
+import express from "express";
+const router = express.Router();
 import { createUser, loginUser, demo } from "../controller/userController";
+import { createLink, editLink } from "../controller/linkController";
 
-// userRouter.post("/register", createUser)
-// userRouter.post('/login', loginUser)
+// Demo route
+router.route('/demo').get(demo);
 
-router.route('/demo').get(demo)
-router.route('/register').get(createUser)
-router.route('/login').get(loginUser)
+// User registration and login routes
+router.route('/register').post(createUser);
+router.route('/login').post(loginUser);
 
- 
+// Link management routes
+router.route('/links').post(createLink); // Create a link
+router.route('/links/:id').put(editLink); // Edit an existing link
+
 export default router;
