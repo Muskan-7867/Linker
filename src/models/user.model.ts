@@ -3,7 +3,7 @@ import mongoose, { Document } from "mongoose";
 // Linktree structure
 interface Linktree {
   templateName: string;
-  links: mongoose.Types.ObjectId[]; // References to Link documents
+  links: mongoose.Types.ObjectId[]; 
 }
 
 // User interface, extending Mongoose's Document
@@ -32,8 +32,8 @@ const userSchema = new mongoose.Schema<User>(
       required: true,
     },
     avatar: {
-      type: String,
-      default: "https://example.com/default-avatar.png",
+      public_id: String,
+      url: String,
     },
     linktree: {
       type: {
