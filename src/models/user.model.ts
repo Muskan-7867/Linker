@@ -1,19 +1,17 @@
 import mongoose, { Document } from "mongoose";
 
-// Linktree structure
-interface Linktree {
-  templateName: string;
-  links: mongoose.Types.ObjectId[]; 
-}
 
-// User interface, extending Mongoose's Document
+type linktree={
+  type: mongoose.Schema.Types.ObjectId,
+  ref: string
+}
 export interface User extends Document {
   username: string;
   email: string;
   password: string;
-  avatar?: string; 
-  linktree?: Linktree; 
-}
+  avatar?: string;
+  linktree?: linktree[];
+   }
 
 // User schema
 const userSchema = new mongoose.Schema<User>(
@@ -32,18 +30,25 @@ const userSchema = new mongoose.Schema<User>(
       required: true,
     },
     avatar: {
-      public_id: String,
-      url: String,
-    },
-    linktree: {
-      type: {
-        templateName: { type: String, required: true },
-        links: [{ type: mongoose.Schema.Types.ObjectId, ref: "Link" }],
+      public_id: {
+        type: String,
       },
-      required: false, // Make the entire `linktree` object optional
+      url: {
+        type: String,
+      },
     },
+    linktree: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "LinkTree",
+      }
+    ]
   },
-  { timestamps: true } // timestamps for createdAt and updatedAt
+  { timestamps: true } 
 );
 
-export default mongoose.model<User>("User", userSchema);
+// Create User model
+const UserModel =
+  mongoose.models.User || mongoose.model<User>("User", userSchema);
+
+export default UserModel;
