@@ -6,6 +6,6 @@ import { createLink, editLink } from "../controller/linkController";
 // Link management routes
 
 router.route('/create').post(createLink); // Create a link
-router.route('/update/:p').put(editLink); // Edit an existing link
+router.route('/update').put(editLink); // Edit an existing link
 
 export default router;
