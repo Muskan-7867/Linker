@@ -30,6 +30,7 @@ const linkTreeSchema = new mongoose.Schema<LinkTree>({
   },
   links: [
     {
+
       icon: {
         type: String,
         required: true,
