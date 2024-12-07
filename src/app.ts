@@ -1,12 +1,13 @@
 import express from "express";
 
 import userRouter from "./router/userRouter"; 
-
+import linkTreeRouter from "./router/linktree.router"; 
 
 const app = express();
 
 // Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Welcome Route
 app.get("/", (req, res) => {
@@ -15,9 +16,7 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use("/api/v1/user", userRouter);
-
 // Links Routes
-app.post("/api/v1/links", userRouter); 
-app.put("/api/v1/links/:id", userRouter); 
+app.use("/api/v1/link", linkTreeRouter); 
 
 export default app;
