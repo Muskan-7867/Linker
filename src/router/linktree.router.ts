@@ -1,11 +1,12 @@
 import express from "express";
 const router = express.Router();
-import { createLink, editLink } from "../controller/linkController";
+import {  createLinktree,  deleteLinktree,  editLinktree } from "../controller/linkController";
 
 
 // Link management routes
 
-router.route('/create').post(createLink); // Create a link
-router.route('/update').put(editLink); // Edit an existing link
+router.route('/create').post(createLinktree); // Create a linktree
+router.route('/update').put(editLinktree); // Edit an existing linktree
+router.route('/delete/:id').delete(deleteLinktree);
 
 export default router;
