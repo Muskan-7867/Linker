@@ -1,6 +1,6 @@
 import express from "express";
-import  userRouter from "./router/userRouter";
-import  linkTreeRouter from "./router/linktree.router"
+import  userRouter from "../backend/src/router/userRouter"
+import  linkTreeRouter from "../backend/src/router/linktree.router"
 
 const app = express();
 
