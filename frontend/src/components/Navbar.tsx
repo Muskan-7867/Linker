@@ -33,7 +33,7 @@ const App: React.FC = () => {
             </li>
             <li>
               <Link to="/signup">
-                <button className="bg-blue-600 hover:bg-blue-300 px-4 py-2 rounded-[60px] text-white hover:text-blue-500 transition duration-200">
+                <button className="bg-blue-600 hover:bg-blue-300 px-4 py-2 rounded-[60px] text-white hover:text-blue-500 transition duration-200 motion-preset-blink ">
                   Sign Up Free
                 </button>
               </Link>
@@ -43,7 +43,7 @@ const App: React.FC = () => {
           {/* Small Screen Items */}
           <div className="flex md:hidden items-center space-x-4">
           <Link to="/signup">
-              <button className="bg-blue-600 hover:bg-blue-300 px-4 py-2 rounded-[60px] text-white hover:text-blue-500 transition duration-200">
+              <button className="bg-blue-600 hover:bg-blue-300 px-4 py-2 rounded-[60px] text-white hover:text-blue-500 transition duration-200 motion-preset-blink ">
                 Sign Up Free
               </button>
             </Link>
