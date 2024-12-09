@@ -1,7 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import LightTemplate from "./LightTemplate"; 
-import DarkTemplate from "./DarkTemplate";   
+import LightTempForm from "../LightTempForm";
+import DarkTempForm from "../DarkTempForm";
+
 
 const TemplateDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -38,11 +39,11 @@ const TemplateDetail: React.FC = () => {
         
         
         {id === "1" && (
-          <LightTemplate   />
+          <LightTempForm  />
         )}
         
         {id === "2" && (
-          <DarkTemplate   />
+          <DarkTempForm  />
         )}
       </div>
     </div>
