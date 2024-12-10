@@ -18,7 +18,8 @@ interface LightTemplateProps {
 
   const LightTemplate: React.FC<LightTemplateProps> = ({ profileInfo, links }) => {
   return (
-    <div className="bg-white shadow-lg p-6 rounded-lg w-full max-w-screen-md text-center">
+    <div className="flex justify-center items-center bg-gradient-to-r from-gray-500 via-black to-gray-600 min-h-96 p-4">
+    <div className=" shadow-lg bg-opacity-70 bg-gray-300  p-8 rounded-lg w-full max-w-screen-md text-center">
       <img
         src={profileInfo.image}
         alt={profileInfo.name}
@@ -38,6 +39,7 @@ interface LightTemplateProps {
             {link.label}
           </a>
         ))}
+      </div>
       </div>
     </div>
   );

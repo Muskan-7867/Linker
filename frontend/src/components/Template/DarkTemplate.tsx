@@ -18,7 +18,7 @@ interface DarkTemplateProps {
 
 const DarkTemplate: React.FC<DarkTemplateProps> = ({ profileInfo, links }) => {
   return (
-    <div className="flex justify-center items-center bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 min-h-full p-4">
+    <div className="flex justify-center items-center bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 min-h-96 p-4">
       <div className="bg-black bg-opacity-70 shadow-lg p-8 rounded-lg w-full max-w-screen-md text-center">
         <img
           src={profileInfo.image}
