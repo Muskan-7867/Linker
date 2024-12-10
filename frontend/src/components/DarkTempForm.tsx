@@ -1,13 +1,14 @@
-
 import Form from "./Form";
 import DarkTemplate from "./Template/DarkTemplate";
 
+
 const TempForm = () => {
   return (
-    <div className="bg-white min-h-screen flex items-center justify-center p-6 space-x-4"> {/* Full height and centered */}
-      <div className="flex flex-col lg:flex-row gap-6 w-full max-w-screen-lg">
-        
-        <div className="flex-1">
+    <div className="bg-gradient-to-r from-blue-50  to-indigo-100 min-h-screen flex items-center justify-center p-6">
+      {/* Container */}
+      <div className="flex flex-col lg:flex-row gap-8 w-full max-w-screen-lg bg-white rounded-lg shadow-lg overflow-hidden">
+     
+        <div className="flex-1 p-6 lg:p-8  bg-gray-50 flex flex-col items-center justify-center">
           <DarkTemplate
             profileInfo={{
               name: "John Doe",
@@ -22,9 +23,15 @@ const TempForm = () => {
           />
         </div>
 
-        {/* Right Side: ContactForm Component */}
-        <div className="flex-1">
-          <Form />
+        {/* Right Side: Contact Form */}
+        <div className="flex-1 p-6 lg:p-8">
+          <div className="bg-white p-8 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Get in Touch</h2>
+            <p className="text-gray-600 mb-6">
+              Fill out the form below.
+            </p>
+            <Form />
+          </div>
         </div>
       </div>
     </div>
