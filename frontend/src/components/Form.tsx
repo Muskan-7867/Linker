@@ -14,10 +14,10 @@ function LinkForm() {
     };
 
     return (
-        <div className="mt-4">
+        <div className="mt-4  max-h-96 overflow-y-scroll border border-gray-300 rounded p-4 scrollbar-hidden">
             {links.map((link, index) => (
-                <div key={index} className="mb-4 border-b pb-4">
-                    <div className="mb-4 flex items-center">
+                <div key={index} className="mb-4 border-b pb-4 ">
+                    <div className="mb-4 flex  items-center overflow-auto">
                         <label
                             htmlFor={`title-${index}`}
                             className="block text-gray-700 text-sm font-bold mb-2 mr-2"
