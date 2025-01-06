@@ -1,8 +1,6 @@
-import React, { createContext, useState } from 'react';
-
+import React, { createContext, useState } from "react";
 
 export interface Link {
- 
   title: string;
   icon: string;
   link: string;
@@ -16,15 +14,21 @@ interface LinkContextType {
 
 const LinksContext = createContext<LinkContextType | undefined>(undefined);
 
-export const LinksProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [links, setLinks] = useState<Link[]>([{  title: '', icon: '', link: '' }]);
+export const LinksProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [links, setLinks] = useState<Link[]>([
+    { title: "", icon: "", link: "" },
+  ]);
 
   const addNewLink = () => {
-    setLinks([...links, {  title: '', icon: '', link: '' }]);
+    setLinks([...links, { title: "", icon: "", link: "" }]);
   };
 
   const updateLink = (index: number, key: keyof Link, value: string) => {
-    const updatedLinks = links.map((link, i) => (i === index ? { ...link, [key]: value } : link));
+    const updatedLinks = links.map((link, i) =>
+      i === index ? { ...link, [key]: value } : link
+    );
     setLinks(updatedLinks);
   };
 
@@ -35,9 +39,7 @@ export const LinksProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   return (
-    <LinksContext.Provider value={value}>
-      {children}
-    </LinksContext.Provider>
+    <LinksContext.Provider value={value}>{children}</LinksContext.Provider>
   );
 };
 

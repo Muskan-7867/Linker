@@ -9,12 +9,14 @@ function LinkForm() {
         updateLink: (index: number, key: keyof Link, value: string) => void;
     };
 
+    
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
         updateLink(index, e.target.name as keyof Link, e.target.value);
     };
 
     return (
-        <div className="mt-4  max-h-96 overflow-y-scroll border border-gray-300 rounded p-4 scrollbar-hidden">
+        <div className="mt-4  max-h-96 overflow-y-scroll  rounded p-4 scrollbar-hidden">
             {links.map((link, index) => (
                 <div key={index} className="mb-4 border-b pb-4 ">
                     <div className="mb-4 flex  items-center overflow-auto">
