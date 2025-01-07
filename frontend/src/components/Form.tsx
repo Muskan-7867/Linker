@@ -59,10 +59,11 @@ function LinkForm() {
   };
 
   return (
-    <div className="mt-4 p-4 max-w-lg mx-auto bg-white rounded-lg shadow-lg">
-      <div className="space-y-6">
+    <div className="mt-4 p-4 max-w-lg  mx-auto bg-white rounded-lg  shadow-lg">
+      <div className="max-h-96 overflow-y-auto scrollbar-hidden">
+      <div className="space-y-6  ">
         {links.map((link, index) => (
-          <div key={index} className="mb-4 border-b pb-4">
+          <div key={index} className="mb-4 border-b pb-4 ">
             {/* Title Dropdown */}
             <div className="relative mb-4">
               <label className="block text-sm font-bold mb-2  text-gray-700">
@@ -152,6 +153,7 @@ function LinkForm() {
           Add More Links
         </button>
       </div>
+    </div>
     </div>
   );
 }
