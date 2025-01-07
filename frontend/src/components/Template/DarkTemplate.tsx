@@ -18,7 +18,7 @@ interface DarkTemplateProps {
 
 const DarkTemplate: React.FC<DarkTemplateProps> = ({ profileInfo, links }) => {
   return (
-    <div className="bg-gray-900 shadow-lg rounded-xl p-6 w-80 max-w-sm border border-gray-800">
+    <div className="bg-gray-900 shadow-lg rounded-xl p-6 w-80 max-w-sm border border-gray-800 ">
       {/* Profile Section */}
       <div className="text-center mb-6">
         <img
