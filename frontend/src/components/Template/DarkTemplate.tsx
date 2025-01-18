@@ -1,71 +1,47 @@
-import React from "react";
-
-interface LinkCardProps {
-  url: string;
-  label: string;
+interface Link {
+  title: string;
+  icon: JSX.Element | null;
+  link: string;
 }
 
-interface ProfileSectionProps {
+interface ProfileInfo {
   name: string;
   info: string;
   image: string;
 }
 
 interface DarkTemplateProps {
-  profileInfo: ProfileSectionProps;
-  links: LinkCardProps[];
+  profileInfo: ProfileInfo;
+  links: Link[];
 }
 
 const DarkTemplate: React.FC<DarkTemplateProps> = ({ profileInfo, links }) => {
   return (
-    <div className="bg-gray-900 shadow-lg rounded-xl p-6 w-80 max-w-sm border border-gray-800 ">
-      {/* Profile Section */}
-      <div className="text-center mb-6">
+    <div className="text-center p-6 bg-gray-800 text-white rounded-lg shadow-lg">
+      {/* Profile Info */}
+      <div className="mb-6">
         <img
           src={profileInfo.image}
           alt={profileInfo.name}
-          className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-purple-500 shadow-md"
+          className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-gray-700 shadow-md"
         />
-        <h1 className="text-2xl font-bold text-white">{profileInfo.name}</h1>
-        <p className="text-gray-400 text-sm">{profileInfo.info}</p>
+        <h1 className="text-xl font-bold">{profileInfo.name}</h1>
+        <p className="text-gray-400">{profileInfo.info}</p>
       </div>
 
-      {/* Links Section */}
+      {/* Links */}
       <div className="space-y-4">
         {links.map((link, index) => (
           <a
             key={index}
-            href={link.url}
+            href={link.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="block w-full bg-purple-600 hover:bg-purple-700 text-white text-center py-2 rounded-[25px] font-medium transition duration-200 shadow-md"
+            className="block w-full bg-gray-700 hover:bg-gray-600 text-center py-3 rounded-lg text-white font-medium shadow transition duration-200"
           >
-            {link.label}
+            {link.icon} {link.title || "Untitled Link"}
           </a>
         ))}
-      </div>
-
-      {/* Social Icons Section */}
-      <div className="flex justify-center mt-6 space-x-3">
-        {/* Replace src attributes with actual icon paths */}
-        <a
-          href="#"
-          className="w-10 h-10 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center shadow transition"
-        >
-          <img src="/path/to/icon1.svg" alt="Icon 1" className="w-5 h-5" />
-        </a>
-        <a
-          href="#"
-          className="w-10 h-10 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center shadow transition"
-        >
-          <img src="/path/to/icon2.svg" alt="Icon 2" className="w-5 h-5" />
-        </a>
-        <a
-          href="#"
-          className="w-10 h-10 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center shadow transition"
-        >
-          <img src="/path/to/icon3.svg" alt="Icon 3" className="w-5 h-5" />
-        </a>
       </div>
     </div>
   );
