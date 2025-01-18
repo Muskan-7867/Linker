@@ -36,9 +36,9 @@ const LightTempForm: React.FC = () => {
         </div>
 
         {/* Right Side: Link Form */}
-        <div className="flex-1 p-6 lg:p-8 bg-gray-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Manage Links</h2>
+        <div className="flex-1 p-6 lg:p-8 ">
+          <div className=" p-6 rounded-lg shadow-lg ">
+            <h2 className="text-2xl font-bold text-gray-800  text-center  mb-4">Manage Links</h2>
             <LinkForm links={links} setLinks={setLinks} />
           </div>
         </div>
