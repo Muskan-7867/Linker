@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import {
   FaPlus,
@@ -46,12 +47,18 @@ const LinkForm: React.FC<LinkFormProps> = ({ links, setLinks }) => {
     setLinks([...links, { title: "", icon: null, link: "" }]);
   };
 
-  const handleLinkChange = (index: number, key: keyof Link, value: string | JSX.Element) => {
+  const handleLinkChange = (index: number, key: keyof Link, value: string | JSX.Element | null) => {
     const updatedLinks = [...links];
-    updatedLinks[index][key] = value;
+    if (key === "title" && typeof value === "string") {
+      updatedLinks[index][key] = value; 
+    } else if (key === "icon" && React.isValidElement(value)) {
+      updatedLinks[index][key] = value; 
+    } else if (key === "link" && typeof value === "string") {
+      updatedLinks[index][key] = value; 
+    }
     setLinks(updatedLinks);
   };
-
+  
   const handleTitleSelect = (index: number, title: string) => {
     handleLinkChange(index, "title", title);
     setTitleDropdownOpen(false);
