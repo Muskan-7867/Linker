@@ -63,7 +63,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ links, setLinks }) => {
   };
 
   return (
-    <div className="mt-4 p-4 max-w-lg mx-auto bg-white rounded-lg shadow-lg">
+    <div className="mt-4 p-4 max-w-lg mx-auto bg-white rounded-lg ">
       <div className="max-h-96 overflow-y-auto scrollbar-hidden">
         <div className="space-y-6">
           {links.map((link, index) => (
@@ -110,7 +110,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ links, setLinks }) => {
                   <FaPlus />
                 </div>
                 {iconDropdownOpen && activeIndex === index && (
-                  <div className="absolute mt-1 w-full bg-white border rounded-lg shadow-lg z-10">
+                  <div className="absolute mt-1 w-full bg-white border rounded-lg  z-10">
                     {titles.map((title, i) => (
                       <div
                         key={i}
@@ -137,15 +137,18 @@ const LinkForm: React.FC<LinkFormProps> = ({ links, setLinks }) => {
               </div>
             </div>
           ))}
+          <div className="flex justify-center">
+            <button
+              type="button"
+              onClick={handleAddLink}
+              className="flex items-center bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            >
+              <FaPlus className="mr-2" />
+              Add More Links
+            </button>
+          </div>
 
-          <button
-            type="button"
-            onClick={handleAddLink}
-            className="flex items-center bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-          >
-            <FaPlus className="mr-2" />
-            Add More Links
-          </button>
+
         </div>
       </div>
     </div>
