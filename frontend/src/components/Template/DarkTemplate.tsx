@@ -17,7 +17,7 @@ interface DarkTemplateProps {
 
 const DarkTemplate: React.FC<DarkTemplateProps> = ({ profileInfo, links }) => {
   return (
-    <div className="text-center p-6 bg-gray-800 text-white rounded-lg shadow-lg">
+    <div className="text-center p-6 bg-gray-800 text-white mt-[20%] rounded-lg shadow-lg w-[90%] sm:w-[24rem] md:w-[28rem] lg:w-[20rem] mx-auto">
       {/* Profile Info */}
       <div className="mb-6">
         <img
@@ -37,9 +37,10 @@ const DarkTemplate: React.FC<DarkTemplateProps> = ({ profileInfo, links }) => {
             href={link.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="block w-full bg-gray-700 hover:bg-gray-600 text-center py-3 rounded-lg text-white font-medium shadow transition duration-200"
+            className="flex items-center justify-center w-full bg-gray-200 hover:bg-gray-300 py-3 rounded-lg text-gray-800 font-medium shadow transition duration-200"
           >
-            {link.icon} {link.title || "Untitled Link"}
+            <span className="mr-2">{link.icon}</span>
+            <span>{link.title || "Untitled Link"}</span>
           </a>
         ))}
       </div>
@@ -48,3 +49,4 @@ const DarkTemplate: React.FC<DarkTemplateProps> = ({ profileInfo, links }) => {
 };
 
 export default DarkTemplate;
+
