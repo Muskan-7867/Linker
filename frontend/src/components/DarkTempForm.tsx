@@ -27,7 +27,7 @@ const DarkTempForm: React.FC = () => {
   ]);
 
   return (
-    <div className="bg-gradient-to-r from-blue-50 to-indigo-100 min-h-screen flex items-center justify-center p-6">
+    <div className="bg-gradient-to-r  min-h-screen flex items-center justify-center p-6">
     {/* Container */}
     <div className="flex flex-col lg:flex-row gap-8 w-full max-w-screen-lg bg-white rounded-lg shadow-lg overflow-hidden">
         {/* Right Side: Dark Template */}
