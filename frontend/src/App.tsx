@@ -6,8 +6,8 @@ import {
   useLocation,
 } from "react-router-dom";
 import { LinksProvider } from "./components/LinksContext";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
+import Login from "./pages/users/auth/Login";
+import Signup from "./pages/users/auth/Signup";
 import Home from "./components/Home";
 import Navbar from "./components/Navbar";
 import Templates from "./components/Template/Template";
