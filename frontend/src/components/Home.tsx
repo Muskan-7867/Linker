@@ -14,7 +14,7 @@ const Home: React.FC = () => {
           Explore our templates and get started today!
         </p>
         <Link to="/templates">
-          <button className="bg-blue-600 motion-preset-wobble  hover:bg-blue-300 px-4 sm:px-6 py-2 sm:py-3 rounded-md text-white transition duration-200">
+          <button className="bg-blue-600  hover:bg-blue-300 px-4 sm:px-6 py-2 sm:py-3 rounded-md text-white transition duration-200">
             Get Started
           </button>
         </Link>

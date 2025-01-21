@@ -33,7 +33,7 @@ const App: React.FC = () => {
             </li>
             <li>
               <Link to="/signup">
-                <button className="bg-blue-600 hover:bg-blue-300 px-4 py-2 rounded-[60px] text-white hover:text-blue-500 transition duration-200 motion-preset-blink ">
+                <button className="bg-blue-600 hover:bg-blue-300 px-4 py-2 rounded-[60px] text-white hover:text-blue-500 ">
                   Sign Up Free
                 </button>
               </Link>
