@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -8,6 +9,8 @@ const Signup: React.FC = () => {
    const [message, setMessage] = useState<string>('');
   const [error, setError] = useState<string>("");
 
+
+  const navigate = useNavigate();
   // Properly typing the event for form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,7 +35,8 @@ const Signup: React.FC = () => {
 
       const data = await response.json();
       console.log("User created successfully:", data);
-      setMessage('Login successful!');
+      setMessage(' User Register successfully!');
+      navigate("/login");
       
     } catch (err) {
       console.error("Error creating user:", err);
@@ -95,7 +99,7 @@ const Signup: React.FC = () => {
           <button
             type="submit"
             className="bg-blue-600 hover:bg-blue-500 py-2 rounded-md w-full text-white transition duration-200"
-            disabled={loading}  // Disable button while loading
+            disabled={loading}  
           >
             {loading ? "Registering..." : "Register"}
           </button>

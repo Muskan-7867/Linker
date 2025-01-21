@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 const Login: React.FC = () => {
@@ -8,6 +9,8 @@ const Login: React.FC = () => {
   const [message, setMessage] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
+
+  const navigate = useNavigate();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -23,6 +26,7 @@ const Login: React.FC = () => {
       // Store the token in local storage
       localStorage.setItem('token', response.data.accesstoken);
       setMessage('Login successful!');
+      navigate("/");
     } catch (err) {
       console.error("Error creating user:", err);
    
