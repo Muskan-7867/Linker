@@ -10,10 +10,10 @@ import Login from "./pages/users/auth/Login";
 import Signup from "./pages/users/auth/Signup";
 import Home from "./components/Home";
 import Navbar from "./components/Navbar";
-import Templates from "./components/Template/Template";
-import TemplateDetail from "./components/Template/TemplateDetail";
+import Templates from "./pages/Template/Template";
+import TemplateDetail from "./pages/Template/TemplateDetail";
 import LinksDisplay from "./components/LinkDisplay";
-import LinkForm from "./components/Form";
+import LinkForm from "./components/Forms/Form";
 
 const App: React.FC = () => {
   const location = useLocation();
