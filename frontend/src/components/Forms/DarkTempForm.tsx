@@ -23,7 +23,7 @@ const DarkTempForm: React.FC = () => {
   });
 
   const [links, setLinks] = useState<Link[]>([
-    { title: "", icon: null, link: "" }, // Initial single link
+    { title: "", icon: null, link: "" }, 
   ]);
 
   return (
@@ -31,7 +31,7 @@ const DarkTempForm: React.FC = () => {
     {/* Container */}
     <div className="flex flex-col lg:flex-row gap-8 w-full max-w-screen-lg bg-white rounded-lg shadow-lg overflow-hidden">
         {/* Right Side: Dark Template */}
-        <div className="flex-1 p-6 lg:p-8 bg-gray-50 flex flex-col items-center justify-start">
+        <div className="flex-1 p-6 lg:p-8  flex flex-col items-center justify-start">
           <DarkTemplate profileInfo={profileInfo} links={links} />
         </div>
     
