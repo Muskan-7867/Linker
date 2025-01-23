@@ -4,29 +4,43 @@ import createHttpError from "http-errors";
 import linktreeModel from "../models/linktree.model"
 
 // POST Controller: Create a new link
-export const createLinktree = async (req: Request,res: Response,next: NextFunction): Promise<void> => {
+export const createLinktree = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
-    const { treeName, title, icon, url } = req.body;
+    const { treeName, links } = req.body; // Expecting `links` to be an array of objects
 
     // Validate required fields
-    if (!treeName || !title || !icon || !url) {
-      return next(createHttpError(400, "All fields are required"));
+    if (!treeName || !Array.isArray(links) || links.length === 0) {
+      return next(createHttpError(400, "Tree name and at least one link are required."));
     }
 
-    // Create a new LinkTree
-    const newLink = new linkModel({
+    // Validate each link in the `links` array
+    for (const link of links) {
+      if (!link.title || !link.icon || !link.url) {
+        return next(
+          createHttpError(400, "Each link must have a title, icon, and URL.")
+        );
+      }
+    }
+
+    // Create a new Linktree
+    const newLinktree = new linkModel({
       treeName,
-      links: [{ title, icon, url }],
+      links,
     });
 
-    // Save the document to the database
-    await newLink.save();
+    // Save the Linktree to the database
+    await newLinktree.save();
 
-    res
-      .status(201)
-      .json({ message: "Link created successfully", link: newLink });
+    res.status(201).json({
+      message: "Linktree created successfully",
+      link: newLinktree,
+    });
   } catch (error) {
-    console.error(error);
+    console.error("Error creating Linktree:", error);
     return next(createHttpError(500, "Internal Server Error"));
   }
 };
