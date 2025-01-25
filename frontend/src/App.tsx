@@ -5,7 +5,7 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
-import { LinksProvider } from "./components/LinksContext";
+import { LinksProvider } from "./context/LinksContext";
 import Login from "./pages/users/auth/Login";
 import Signup from "./pages/users/auth/Signup";
 import Home from "./components/Home";
@@ -14,6 +14,7 @@ import Templates from "./pages/Template/Template";
 import TemplateDetail from "./pages/Template/TemplateDetail";
 import LinksDisplay from "./components/LinkDisplay";
 import LinkForm from "./components/Forms/Form";
+import LinktreeTemplate from "./components/LinktreeTemplate";
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -40,6 +41,7 @@ const App: React.FC = () => {
               </div>
             }
           />
+           <Route path="/linktree-template" element={<LinktreeTemplate />} />
         </Routes>
       </div>
     </>
