@@ -1,6 +1,6 @@
 
 import  { useContext } from 'react';
-import LinksContext, { Link } from "./LinksContext";
+import LinksContext, { Link } from '../context/LinksContext';
 
 function LinksDisplay() {
     const { links } = useContext(LinksContext) as { links: Link[] };
