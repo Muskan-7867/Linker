@@ -1,165 +1,118 @@
-import React from "react";
-import { useState } from "react";
-import {
-  FaPlus,
-  FaInstagram,
-  FaTwitter,
-  FaFacebook,
-  FaLinkedin,
-  FaYoutube,
-  FaPinterest,
-  FaSnapchat,
-  FaTiktok,
-  FaReddit,
-  FaWhatsapp,
-} from "react-icons/fa";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import TitleDropdown from "../dropdowns/titledropdown";
+import IconDropdown from "../dropdowns/icondropdown";
 
 interface Link {
   title: string;
-  icon: JSX.Element | null;
+  icon: string;
   link: string;
 }
 
-interface LinkFormProps {
+interface FormProps {
   links: Link[];
   setLinks: React.Dispatch<React.SetStateAction<Link[]>>;
 }
 
-const LinkForm: React.FC<LinkFormProps> = ({ links, setLinks }) => {
-  const [titleDropdownOpen, setTitleDropdownOpen] = useState(false);
-  const [iconDropdownOpen, setIconDropdownOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-  const titles = [
-    { name: "Instagram", icon: <FaInstagram /> },
-    { name: "Twitter", icon: <FaTwitter /> },
-    { name: "Facebook", icon: <FaFacebook /> },
-    { name: "LinkedIn", icon: <FaLinkedin /> },
-    { name: "YouTube", icon: <FaYoutube /> },
-    { name: "Pinterest", icon: <FaPinterest /> },
-    { name: "Snapchat", icon: <FaSnapchat /> },
-    { name: "TikTok", icon: <FaTiktok /> },
-    { name: "Reddit", icon: <FaReddit /> },
-    { name: "WhatsApp", icon: <FaWhatsapp /> },
-  ];
+const Form: React.FC<FormProps> = ({ links, setLinks }) => {
+  const [treeName, setTreeName] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleAddLink = () => {
-    setLinks([...links, { title: "", icon: null, link: "" }]);
+    setLinks([...links, { title: "", icon: "", link: "" }]);
   };
 
-  const handleLinkChange = (index: number, key: keyof Link, value: string | JSX.Element | null) => {
+  const handleLinkChange = (
+    index: number,
+    key: keyof Link,
+    value: string
+  ) => {
     const updatedLinks = [...links];
-    if (key === "title" && typeof value === "string") {
-      updatedLinks[index][key] = value; 
-    } else if (key === "icon" && React.isValidElement(value)) {
-      updatedLinks[index][key] = value; 
-    } else if (key === "link" && typeof value === "string") {
-      updatedLinks[index][key] = value; 
-    }
+    updatedLinks[index][key] = value;
     setLinks(updatedLinks);
   };
-  
-  const handleTitleSelect = (index: number, title: string) => {
-    handleLinkChange(index, "title", title);
-    setTitleDropdownOpen(false);
-  };
 
-  const handleIconSelect = (index: number, icon: JSX.Element) => {
-    handleLinkChange(index, "icon", icon);
-    setIconDropdownOpen(false);
+  const handleCreateLinktreeClick = () => {
+    const linktreeData = { links, treeName };
+
+    // Save to local storage (optional)
+    localStorage.setItem("userLinktreeData", JSON.stringify(linktreeData));
+
+    // Navigate to the Linktree Template page with state
+    navigate("/linktree-template", { state: linktreeData });
   };
 
   return (
-    <div className="mt-4 p-4 max-w-lg mx-auto bg-white rounded-lg ">
-      <div className="max-h-96 overflow-y-auto scrollbar-hidden">
-        <div className="space-y-6">
-          {links.map((link, index) => (
-            <div key={index} className="mb-4 border-b pb-4">
-              {/* Title Dropdown */}
-              <div className="relative mb-4">
-                <label className="block text-sm font-bold mb-2 text-gray-700">Title</label>
-                <div
-                  className="flex items-center cursor-pointer border border-black rounded-lg px-3 py-2"
-                  onClick={() => {
-                    setTitleDropdownOpen(!titleDropdownOpen);
-                    setActiveIndex(index);
-                  }}
-                >
-                  <span className="flex-grow">{link.title || "Select Title"}</span>
-                  <FaPlus />
-                </div>
-                {titleDropdownOpen && activeIndex === index && (
-                  <div className="absolute mt-1 w-full bg-white rounded-lg shadow-lg z-10">
-                    {titles.map((title, i) => (
-                      <div
-                        key={i}
-                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                        onClick={() => handleTitleSelect(index, title.name)}
-                      >
-                        {title.name}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+    <div className="mt-4 p-4 max-w-lg mx-auto bg-white rounded-lg">
+      <div className="space-y-6">
+        {/* Tree Name Input */}
+        <div className="mb-4">
+          <label className="block text-sm font-bold mb-2 text-gray-700">Tree Name</label>
+          <input
+            type="text"
+            className="w-full px-4 py-2 border text-black border-black rounded-lg"
+            placeholder="Enter your Linktree name"
+            value={treeName}
+            onChange={(e) => setTreeName(e.target.value)}
+          />
+        </div>
 
-              {/* Icon Dropdown */}
-              <div className="relative mb-4">
-                <label className="block text-sm font-bold mb-2 text-gray-700">Icon</label>
-                <div
-                  className="flex items-center cursor-pointer border border-black rounded-lg px-3 py-2"
-                  onClick={() => {
-                    setIconDropdownOpen(!iconDropdownOpen);
-                    setActiveIndex(index);
-                  }}
-                >
-                  <span className="flex-grow">{link.icon || "Select Icon"}</span>
-                  <FaPlus />
-                </div>
-                {iconDropdownOpen && activeIndex === index && (
-                  <div className="absolute mt-1 w-full bg-white border rounded-lg  z-10">
-                    {titles.map((title, i) => (
-                      <div
-                        key={i}
-                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center"
-                        onClick={() => handleIconSelect(index, title.icon)}
-                      >
-                        {title.icon}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Link Input */}
-              <div className="mb-4">
-                <label className="block text-sm font-bold mb-2 text-gray-700">Link</label>
-                <input
-                  type="text"
-                  className="w-full px-4 py-2 border text-black border-black rounded-lg"
-                  placeholder="Enter link"
-                  value={link.link}
-                  onChange={(e) => handleLinkChange(index, "link", e.target.value)}
-                />
-              </div>
+        {/* Links Input */}
+        {links.map((link, index) => (
+          <div key={index} className="mb-4 border-b pb-4">
+            {/* Title Dropdown */}
+            <div className="mb-4">
+              <label className="block text-sm font-bold mb-2 text-gray-700">Title</label>
+              <TitleDropdown
+                selectedTitle={link.title}
+                onTitleSelect={(title) => handleLinkChange(index, "title", title)}
+              />
             </div>
-          ))}
-          <div className="flex justify-center">
-            <button
-              type="button"
-              onClick={handleAddLink}
-              className="flex items-center bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-            >
-              <FaPlus className="mr-2" />
-              Add More Links
-            </button>
+
+            {/* Icon Dropdown */}
+            <div className="mb-4">
+              <label className="block text-sm font-bold mb-2 text-gray-700">Icon</label>
+              <IconDropdown
+                selectedIcon={link.icon}
+                onIconSelect={(icon) => handleLinkChange(index, "icon", icon)}
+              />
+            </div>
+
+            {/* Link Input */}
+            <div className="mb-4">
+              <label className="block text-sm font-bold mb-2 text-gray-700">Link</label>
+              <input
+                type="text"
+                className="w-full px-4 py-2 border text-black border-black rounded-lg"
+                placeholder="Enter link"
+                value={link.link}
+                onChange={(e) => handleLinkChange(index, "link", e.target.value)}
+              />
+            </div>
           </div>
+        ))}
 
+        <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+          <button
+            type="button"
+            onClick={handleAddLink}
+            className="flex items-center justify-center bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full md:w-auto"
+          >
+            Add More Links
+          </button>
 
+          <button
+            type="button"
+            onClick={handleCreateLinktreeClick}
+            className="flex items-center justify-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full md:w-auto"
+          >
+            Create Linktree
+          </button>
         </div>
       </div>
     </div>
   );
 };
 
-export default LinkForm;
+export default Form;
