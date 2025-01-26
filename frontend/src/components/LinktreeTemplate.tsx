@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Trash2, Edit } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { editLinktree } from "../services/editlinktree";
 
 interface Link {
@@ -17,46 +17,74 @@ interface LocationState {
 
 const LinktreeTemplate: React.FC = () => {
   const location = useLocation();
-  const { id, links, treeName } = (location.state as LocationState) || {
-    id: "",
-    links: [],
-    treeName: "",
-  };
+  const { id: initialId, links, treeName } = location.state as LocationState;
 
-  const [updatedLinks, setUpdatedLinks] = useState(links);
-  const [updatedTreeName, setUpdatedTreeName] = useState(treeName);
+  const [updatedId, setUpdatedId] = useState(initialId || ""); // Editable ID
+  const [updatedTreeName, setUpdatedTreeName] = useState(treeName || "");
+  const [updatedLinks, setUpdatedLinks] = useState<Link[]>(links || []);
+  const [isSaving, setIsSaving] = useState(false);
 
-  // Handles editing a specific link
   const handleEditLink = (index: number, field: keyof Link, value: string) => {
-    const newLinks = [...updatedLinks];
-    newLinks[index][field] = value;
-    setUpdatedLinks(newLinks);
+    const updated = [...updatedLinks];
+    updated[index][field] = value;
+    setUpdatedLinks(updated);
   };
 
-  // Handles saving changes
   const handleSaveChanges = async () => {
+    setIsSaving(true);
+
+    const linksWithDefaults = updatedLinks.map((link) => ({
+      ...link,
+      icon: link.icon || "defaultIcon.svg", // Assign default icon if not provided
+    }));
+
+    const data = {
+      id: updatedId,
+      treeName: updatedTreeName,
+      links: linksWithDefaults,
+    };
+
+    console.log("Payload being sent to API:", data); // Debug payload
+
     try {
-      const result = await editLinktree(id, updatedTreeName, updatedLinks);
-      console.log("Linktree updated:", result);
-  
-     
-      setUpdatedTreeName(result.treeName);
-      setUpdatedLinks(result.links);
-  
-      alert("Linktree updated successfully!");
+      const response = await editLinktree(data);
+
+      if (response.message === "Linktree updated successfully.") {
+        alert("Linktree updated successfully!");
+      } else {
+        alert("Failed to update Linktree.");
+      }
     } catch (error) {
       console.error("Error updating Linktree:", error);
-      alert("Failed to update Linktree. Please try again.");
+      alert("An error occurred while updating the Linktree.");
+    } finally {
+      setIsSaving(false);
     }
   };
-  
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center py-10">
       <div className="max-w-7xl w-full flex gap-8 mt-40">
         {/* Sidebar for Editing */}
         <div className="w-1/3 bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Edit Links</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-6">Edit Linktree</h2>
+
+          {/* ID Input Field */}
+          <div className="mb-4">
+            <label htmlFor="id" className="block text-sm font-semibold text-gray-700">
+              Tree ID:
+            </label>
+            <input
+              type="text"
+              id="id"
+              value={updatedId}
+              onChange={(e) => setUpdatedId(e.target.value)}
+              className="w-full mt-2 px-4 py-2 border rounded-lg"
+              readOnly // Remove this attribute if the ID should be editable
+            />
+          </div>
+
+          {/* Tree Name Input Field */}
           <div className="mb-4">
             <label htmlFor="treeName" className="block text-sm font-semibold text-gray-700">
               Tree Name:
@@ -69,6 +97,8 @@ const LinktreeTemplate: React.FC = () => {
               className="w-full mt-2 px-4 py-2 border rounded-lg"
             />
           </div>
+
+          {/* Links Editor */}
           {updatedLinks.length === 0 ? (
             <p className="text-gray-500">No links available to edit.</p>
           ) : (
@@ -149,9 +179,12 @@ const LinktreeTemplate: React.FC = () => {
       {/* Save Changes Button */}
       <button
         onClick={handleSaveChanges}
-        className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg"
+        className={`mt-6 px-6 py-2 ${
+          isSaving ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600"
+        } text-white rounded-lg`}
+        disabled={isSaving}
       >
-        Save Changes
+        {isSaving ? "Saving..." : "Save Changes"}
       </button>
     </div>
   );
