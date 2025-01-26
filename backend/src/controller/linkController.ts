@@ -44,11 +44,12 @@ export const createLinktree = async (
     return next(createHttpError(500, "Internal Server Error"));
   }
 };
-export const editLinktree = async (req: Request,res: Response,next: NextFunction): Promise<void> => {
+export const editLinktree = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
+    console.log("Incoming request body:", req.body); // Log the request body
+
     const { id, treeName, links } = req.body;
 
-    // Validate required fields
     if (!id || !treeName || !Array.isArray(links)) {
       return next(
         createHttpError(
@@ -58,15 +59,12 @@ export const editLinktree = async (req: Request,res: Response,next: NextFunction
       );
     }
 
-    //  Add default value  if icon is required for each link
     links.forEach((link) => {
       if (!link.icon) {
-        //  default icon
         link.icon = "defaultIcon.svg";
       }
     });
 
-    // Replace  Linktree with new data
     const updatedLinktree = await linktreeModel.findByIdAndUpdate(
       id,
       { treeName, links },
@@ -77,7 +75,6 @@ export const editLinktree = async (req: Request,res: Response,next: NextFunction
       throw createHttpError(404, "Linktree not found.");
     }
 
-    // Send a success response
     res.status(200).json({
       message: "Linktree updated successfully.",
       linktree: updatedLinktree,
@@ -87,6 +84,7 @@ export const editLinktree = async (req: Request,res: Response,next: NextFunction
     next(createHttpError(500, "Internal Server Error"));
   }
 };
+
 export const deleteLinktree = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { id } = req.params;
