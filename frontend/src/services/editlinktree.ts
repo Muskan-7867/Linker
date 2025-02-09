@@ -1,19 +1,15 @@
-import axios from 'axios';
 
-// Function to update Linktree
-export const editLinktree = async (
-  id: string,
-  treeName: string,
-  links: { title: string; icon: string; link: string }[]
-) => {
+
+import axios from "axios";
+
+export const editLinktree = async (data: { id: string; treeName: string; links: { title: string; link: string; icon?: string }[] }) => {
   try {
-    const response = await axios.put(`http://localhost:8000/api/vi/link/update${id}`, {
-      treeName,
-      links,
+    const response = await axios.put("http://localhost:8000/api/v1/link/edit", data, {
+      headers: { "Content-Type": "application/json" }, 
     });
-    return response.data; 
+    return response.data;
   } catch (error) {
-    console.error("Error updating Linktree:", error);
-    throw error; 
+    console.error("Error in editLinktree API:", error);
+    throw error;
   }
 };
