@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 import TitleDropdown from "../dropdowns/titledropdown";
 import IconDropdown from "../dropdowns/icondropdown";
+import { handleCreateLinktree } from "../../services/linktreeservices";
 
 interface Link {
   title: string;
@@ -17,7 +18,7 @@ interface FormProps {
 
 const Form: React.FC<FormProps> = ({ links, setLinks }) => {
   const [treeName, setTreeName] = useState<string>("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleAddLink = () => {
     setLinks([...links, { title: "", icon: "", link: "" }]);
@@ -33,15 +34,15 @@ const Form: React.FC<FormProps> = ({ links, setLinks }) => {
     setLinks(updatedLinks);
   };
 
-  const handleCreateLinktreeClick = () => {
-    const linktreeData = { links, treeName };
-
-    // Save to local storage (optional)
-    localStorage.setItem("userLinktreeData", JSON.stringify(linktreeData));
-
-    // Navigate to the Linktree Template page with state
-    navigate("/linktree-template", { state: linktreeData });
+  const handleCreateLinktreeClick = async () => {
+    if (!treeName) {
+      alert("Please enter a name for your Linktree.");
+      return;
+    }
+  
+    await handleCreateLinktree(treeName, links);
   };
+  
 
   return (
     <div className="mt-4 p-4 max-w-lg mx-auto bg-white rounded-lg">
