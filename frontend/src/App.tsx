@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -16,11 +16,21 @@ import LinksDisplay from "./components/LinkDisplay";
 import LinkForm from "./components/Forms/Form";
 import LinktreeTemplate from "./components/LinktreeTemplate";
 
+interface Link {
+  title: string;
+  icon: string;
+  link: string;
+}
+
 const App: React.FC = () => {
   const location = useLocation();
   const hideNavbar =
     location.pathname.startsWith("/templates/") &&
     location.pathname !== "/templates";
+
+  // 🔹 State to store links
+  const [links, setLinks] = useState<Link[]>([]);
+  const [treeName] = useState<string>("");
 
   return (
     <>
@@ -37,11 +47,14 @@ const App: React.FC = () => {
             element={
               <div>
                 <LinksDisplay />
-                <LinkForm />
+                <LinkForm links={links} setLinks={setLinks} />
               </div>
             }
           />
-           <Route path="/linktree-template" element={<LinktreeTemplate />} />
+          <Route
+            path="/linktree-template"
+            element={<LinktreeTemplate treeName={treeName} links={links} />}
+          />
         </Routes>
       </div>
     </>

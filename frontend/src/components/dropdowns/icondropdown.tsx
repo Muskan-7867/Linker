@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { FaInstagram, FaTwitter, FaFacebook, FaLinkedin, FaYoutube, FaPinterest, FaSnapchat, FaTiktok, FaReddit, FaWhatsapp, FaPlus } from "react-icons/fa";
+import {
+  FaInstagram, FaTwitter, FaFacebook, FaLinkedin, FaYoutube, FaPinterest,
+  FaSnapchat, FaTiktok, FaReddit, FaWhatsapp, FaPlus
+} from "react-icons/fa";
 
 interface IconDropdownProps {
   selectedIcon: string;
-  onIconSelect: (icon: string) => void;
+  onIconSelect: (iconName: string) => void;
 }
 
 const IconDropdown: React.FC<IconDropdownProps> = ({ selectedIcon, onIconSelect }) => {
@@ -28,8 +31,16 @@ const IconDropdown: React.FC<IconDropdownProps> = ({ selectedIcon, onIconSelect 
         className="flex items-center cursor-pointer border border-black rounded-lg px-3 py-2"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {/* Display the icon alongside the name */}
-        <span className="flex-grow">{selectedIcon ? <span>{selectedIcon}</span> : "Select Icon"}</span>
+        {/* Show selected icon */}
+        <span className="flex-grow flex items-center gap-2">
+          {selectedIcon ? (
+            <>
+              {icons.find((icon) => icon.name === selectedIcon)?.icon} <span>{selectedIcon}</span>
+            </>
+          ) : (
+            "Select Icon"
+          )}
+        </span>
         <FaPlus />
       </div>
       {isOpen && (
@@ -37,13 +48,13 @@ const IconDropdown: React.FC<IconDropdownProps> = ({ selectedIcon, onIconSelect 
           {icons.map((icon, i) => (
             <div
               key={i}
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center"
+              className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
               onClick={() => {
-                onIconSelect(icon.name); // Send the icon name (e.g., "instagram")
+                onIconSelect(icon.name); // Send only icon name
                 setIsOpen(false);
               }}
             >
-              {icon.icon} <span className="ml-2">{icon.name}</span>
+              {icon.icon} <span>{icon.name}</span>
             </div>
           ))}
         </div>
@@ -52,4 +63,4 @@ const IconDropdown: React.FC<IconDropdownProps> = ({ selectedIcon, onIconSelect 
   );
 };
 
-export default IconDropdown;
+export default IconDropdown

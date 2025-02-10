@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import TitleDropdown from "../dropdowns/titledropdown";
 import IconDropdown from "../dropdowns/icondropdown";
@@ -7,7 +7,7 @@ import { handleCreateLinktree } from "../../services/linktreeservices";
 
 interface Link {
   title: string;
-  icon: string;
+  icon: string;  // Store only the icon name (not JSX.Element)
   link: string;
 }
 
@@ -18,17 +18,13 @@ interface FormProps {
 
 const Form: React.FC<FormProps> = ({ links, setLinks }) => {
   const [treeName, setTreeName] = useState<string>("");
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleAddLink = () => {
     setLinks([...links, { title: "", icon: "", link: "" }]);
   };
 
-  const handleLinkChange = (
-    index: number,
-    key: keyof Link,
-    value: string
-  ) => {
+  const handleLinkChange = <K extends keyof Link>(index: number, key: K, value: Link[K]) => {
     const updatedLinks = [...links];
     updatedLinks[index][key] = value;
     setLinks(updatedLinks);
@@ -39,10 +35,17 @@ const Form: React.FC<FormProps> = ({ links, setLinks }) => {
       alert("Please enter a name for your Linktree.");
       return;
     }
-  
-    await handleCreateLinktree(treeName, links);
+
+    try {
+      await handleCreateLinktree(treeName, links);
+      localStorage.setItem("treeName", treeName);
+      localStorage.setItem("links", JSON.stringify(links));
+      navigate("/linktree-template");
+    } catch (error) {
+      console.error("Error creating Linktree:", error);
+      alert("Failed to create Linktree. Please try again.");
+    }
   };
-  
 
   return (
     <div className="mt-4 p-4 max-w-lg mx-auto bg-white rounded-lg">
@@ -76,7 +79,7 @@ const Form: React.FC<FormProps> = ({ links, setLinks }) => {
               <label className="block text-sm font-bold mb-2 text-gray-700">Icon</label>
               <IconDropdown
                 selectedIcon={link.icon}
-                onIconSelect={(icon) => handleLinkChange(index, "icon", icon)}
+                onIconSelect={(iconName) => handleLinkChange(index, "icon", iconName)}
               />
             </div>
 
