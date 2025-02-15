@@ -46,7 +46,7 @@ export const createLinktree = async (
 };
 export const editLinktree = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    console.log("Incoming request body:", req.body); // Log the request body
+    console.log("Incoming request body:", req.body); 
 
     const { id, treeName, links } = req.body;
 
@@ -100,9 +100,11 @@ export const deleteLinktree = async (req: Request, res: Response, next: NextFunc
     // Send a success response
     res.status(200).json({
       message: "Linktree deleted successfully.",
+      
       linktree: deletedLinktree,
     });
-  } catch {
+  } catch (error) {
+    console.error("Error in deleteLinktree:", error); // Log the actual error
     return next(createHttpError(500, "Internal Server Error"));
   }
 };
