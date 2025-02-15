@@ -3,7 +3,7 @@ import React, { createContext, useState } from "react";
 export interface Link {
   title: string;
   icon: string;
-  link: string;
+  url: string;
 }
 
 interface LinkContextType {
@@ -18,11 +18,11 @@ export const LinksProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [links, setLinks] = useState<Link[]>([
-    { title: "", icon: "", link: "" },
+    { title: "", icon: "", url: "" },
   ]);
 
   const addNewLink = () => {
-    setLinks([...links, { title: "", icon: "", link: "" }]);
+    setLinks([...links, { title: "", icon: "", url: "" }]);
   };
 
   const updateLink = (index: number, key: keyof Link, value: string) => {

@@ -17,7 +17,7 @@ function LinksDisplay() {
                        <span className="font-medium">Icon:</span> {link.icon}
                     </p>
                     <p className="text-gray-700">
-                       <span className="font-medium">Link:</span> {link.link}
+                       <span className="font-medium">Link:</span> {link.url}
                     </p>
                 </div>
             ))}
