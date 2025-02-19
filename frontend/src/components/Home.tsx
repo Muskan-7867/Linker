@@ -1,31 +1,30 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 
 const Home: React.FC = () => {
   return (
-    <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center sm:justify-between mt-0 sm:mt-[15%] ml-0 sm:ml-2 md:ml-10 p-6 md:p-10 h-screen main-content">
+    <div className="flex flex-col sm:flex-row items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 p-6">
       {/* Text Section */}
-      <div className="flex flex-col items-center sm:items-start">
-        <h1 className="mb-2 font-extrabold text-white text-3xl sm:text-5xl animate-pulse md:text-4xl lg:text-5xl text-center sm:text-left">
-          Welcome to Our Website!!
+      <div className="flex flex-col items-center sm:items-start text-center sm:text-left mb-8 sm:mb-0 sm:mr-8">
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-4 animate-fade-in">
+          Welcome to LinkTree!
         </h1>
-        <p className="mb-6 text-sm text-white sm:text-base animate-pulse md:text-lg lg:text-xl text-center sm:text-left">
-          Explore our templates and get started today!
+        <p className="text-lg sm:text-xl text-white mb-6 animate-fade-in">
+          Create your personalized link tree and share all your important links in one place.
         </p>
         <Link to="/templates">
-          <button className="bg-blue-600  hover:bg-blue-300 px-4 sm:px-6 py-2 sm:py-3 rounded-md text-white transition duration-200">
+          <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-100 transition duration-300 animate-fade-in">
             Get Started
           </button>
         </Link>
       </div>
 
       {/* Image Section */}
-      <div className="mt-6 sm:mt-0 sm:ml-6 flex justify-center items-center sm:w-1/2">
+      <div className="w-full sm:w-1/2 max-w-md animate-float">
         <img 
           src="src/assets/welcomeg.png" 
-          alt="Description of the image" 
-          className="w-full sm:w-auto max-w-xl sm:max-w-lg animate-wiggle"
+          alt="Welcome Illustration" 
+          className="w-full h-auto"
         />
       </div>
     </div>
