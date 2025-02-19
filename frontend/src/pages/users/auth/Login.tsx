@@ -37,7 +37,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="flex justify-center items-center gap-[10%] bg-gradient-to-r from-blue-500 to-purple-600 min-h-screen">
-      <div className="bg-transparent shadow-lg p-8 rounded-lg w-full max-w-sm">
+      <div className="bg-white bg-opacity-20 shadow-lg p-8 rounded-lg w-full max-w-sm">
         <h2 className="mb-6 font-bold text-2xl text-white text-center">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
