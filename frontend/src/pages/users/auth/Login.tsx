@@ -36,14 +36,14 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center gap-[10%] bg-gray-100 min-h-screen">
-      <div className="bg-white shadow-lg p-8 rounded-lg w-full max-w-sm">
-        <h2 className="mb-6 font-bold text-2xl text-blue-500 text-center">Login</h2>
+    <div className="flex justify-center items-center gap-[10%] bg-gradient-to-r from-blue-500 to-purple-600 min-h-screen">
+      <div className="bg-transparent shadow-lg p-8 rounded-lg w-full max-w-sm">
+        <h2 className="mb-6 font-bold text-2xl text-white text-center">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               htmlFor="username"
-              className="block font-medium text-left text-gray-700 text-lg"
+              className="block font-medium text-left text-white text-lg"
             >
               Email
             </label>
@@ -61,7 +61,7 @@ const Login: React.FC = () => {
           <div className="mb-4">
             <label
               htmlFor="password"
-              className="block font-medium text-left text-gray-700 text-lg"
+              className="block font-medium text-left text-white text-lg"
             >
               Password
             </label>
@@ -84,11 +84,11 @@ const Login: React.FC = () => {
             {loading ? 'Logging in...' : 'Login'}
           </button>
           {message && (
-            <p className="mt-4 text-center text-gray-600 text-sm">{message}</p>
+            <p className="mt-4 text-center text-whitetext-sm">{message}</p>
           )}
-          <p className="mt-4 text-center text-gray-600 text-sm">
+          <p className="mt-4 text-center text-white text-sm">
             Don't have an account?{' '}
-            <a href="/signup" className="text-blue-600 hover:underline">
+            <a href="/signup" className="text-white hover:underline">
               Register
             </a>
           </p>

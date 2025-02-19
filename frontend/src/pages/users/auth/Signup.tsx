@@ -47,12 +47,12 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center gap-[10%] bg-gray-100 min-h-screen">
-      <div className="bg-white shadow-lg p-8 rounded-lg w-full max-w-sm">
-        <h2 className="mb-6 font-bold text-2xl text-blue-500 text-center">Register</h2>
+    <div className="flex justify-center items-center gap-[10%] bg-gradient-to-r from-blue-500 to-purple-600 min-h-screen">
+      <div className=" bg-opacity-50 opacity-100 shadow-lg p-8 rounded-lg w-full max-w-sm">
+        <h2 className="mb-6 font-bold text-2xl text-white text-center">Register</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="email" className="block font-medium text-left text-gray-700 text-lg">
+            <label htmlFor="email" className="block font-medium text-left text-white text-lg">
               Email
             </label>
             <input
@@ -63,11 +63,11 @@ const Signup: React.FC = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="block border-gray-300 mt-1 p-2 border rounded-md focus:ring focus:ring-blue-300 w-full focus:outline-none"
+              className="block border-gray-300 mt-1 p-2 border rounded-md focus:ring-1 focus:ring-black w-full focus:outline-none"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="username" className="block font-medium text-left text-gray-700 text-lg">
+            <label htmlFor="username" className="block font-medium text-left text-white text-lg">
               Username
             </label>
             <input
@@ -78,11 +78,11 @@ const Signup: React.FC = () => {
               required
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="block border-gray-300 mt-1 p-2 border rounded-md focus:ring focus:ring-blue-300 w-full focus:outline-none"
+              className="block border-gray-300 mt-1 p-2 border rounded-md focus:ring-1 focus:ring-black w-full focus:outline-none"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block font-medium text-left text-gray-700 text-lg">
+            <label htmlFor="password" className="block font-medium text-left text-white text-lg">
               Password
             </label>
             <input
@@ -93,7 +93,7 @@ const Signup: React.FC = () => {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="block border-gray-300 mt-1 p-2 border rounded-md focus:ring focus:ring-blue-300 w-full focus:outline-none"
+              className="block border-gray-300 mt-1 p-2 border rounded-md focus:ring-1 focus:ring-black w-full focus:outline-none"
             />
           </div>
           <button
@@ -104,12 +104,12 @@ const Signup: React.FC = () => {
             {loading ? "Registering..." : "Register"}
           </button>
           {message && (
-            <p className="mt-4 text-center text-gray-600 text-sm">{message}</p>
+            <p className="mt-4 text-center text-white text-sm">{message}</p>
           )}
           {error && <p className="text-red-500 text-center mt-4">{error}</p>}  {/* Show error message */}
-          <p className="mt-4 text-center text-gray-600 text-sm">
+          <p className="mt-4 text-center text-white text-sm">
             Already have an account?{" "}
-            <a href="/login" className="text-blue-600 hover:underline">
+            <a href="/login" className="text-white hover:underline">
               Login
             </a>
           </p>
