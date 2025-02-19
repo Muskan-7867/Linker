@@ -5,8 +5,8 @@ import {
 } from "react-icons/fa";
 
 interface IconDropdownProps {
-  selectedIcon: string;
-  onIconSelect: (iconName: string) => void;
+  selectedIcon: { name: string; icon: JSX.Element } | null; // Updated to store the entire icon object
+  onIconSelect: (icon: { name: string; icon: JSX.Element }) => void; // Updated to pass the entire icon object
 }
 
 const IconDropdown: React.FC<IconDropdownProps> = ({ selectedIcon, onIconSelect }) => {
@@ -35,7 +35,7 @@ const IconDropdown: React.FC<IconDropdownProps> = ({ selectedIcon, onIconSelect 
         <span className="flex-grow flex items-center gap-2">
           {selectedIcon ? (
             <>
-              {icons.find((icon) => icon.name === selectedIcon)?.icon} <span>{selectedIcon}</span>
+              {selectedIcon.icon} <span>{selectedIcon.name}</span>
             </>
           ) : (
             "Select Icon"
@@ -50,7 +50,7 @@ const IconDropdown: React.FC<IconDropdownProps> = ({ selectedIcon, onIconSelect 
               key={i}
               className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
               onClick={() => {
-                onIconSelect(icon.name); // Send only icon name
+                onIconSelect(icon); // Pass the entire icon object
                 setIsOpen(false);
               }}
             >
@@ -63,4 +63,4 @@ const IconDropdown: React.FC<IconDropdownProps> = ({ selectedIcon, onIconSelect 
   );
 };
 
-export default IconDropdown
+export default IconDropdown;

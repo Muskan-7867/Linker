@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LinkForm from "./Form";
+import Form from "./Form";
 import DarkTemplate from "../../pages/Template/DarkTemplate";
 
 interface ProfileInfo {
@@ -40,8 +40,8 @@ const DarkTempForm: React.FC = () => {
       {/* Bottom: Form Section */}
       <div className="flex-1 p-6 lg:p-8 ">
         <div className=" p-6 rounded-lg shadow-lg ">
-          <h2 className="text-2xl font-bold text-gray-800 text-center  mb-4">Manage Links</h2>
-          <LinkForm links={links} setLinks={setLinks} />
+          
+          <Form links={links} setLinks={setLinks} />
         </div>
       </div>
     </div>

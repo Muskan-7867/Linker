@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import TitleDropdown from "../dropdowns/titledropdown";
 import IconDropdown from "../dropdowns/icondropdown";
-import { handleCreateLinktree } from "../../services/linktreeservices";
+import axios, { AxiosError } from "axios"; // Import AxiosError for type checking
 
 interface Link {
+  id: string;
   title: string;
-  icon: string;  // Store only the icon name (not JSX.Element)
+  icon: JSX.Element | null;
   link: string;
 }
 
@@ -21,41 +21,69 @@ const Form: React.FC<FormProps> = ({ links, setLinks }) => {
   const navigate = useNavigate();
 
   const handleAddLink = () => {
-    setLinks([...links, { title: "", icon: "", link: "" }]);
+    setLinks([...links, { id: crypto.randomUUID(), title: "", icon: null, link: "" }]);
   };
 
   const handleLinkChange = <K extends keyof Link>(index: number, key: K, value: Link[K]) => {
     const updatedLinks = [...links];
-    updatedLinks[index][key] = value;
+    updatedLinks[index] = { ...updatedLinks[index], [key]: value };
     setLinks(updatedLinks);
   };
 
-  const handleCreateLinktreeClick = async () => {
-    if (!treeName) {
-      alert("Please enter a name for your Linktree.");
+  const handleCreateLinktree = async () => {
+    if (!treeName.trim()) {
+      alert("Please enter a tree name.");
       return;
     }
-
+  
+    for (const link of links) {
+      if (!link.title.trim() || !link.link.trim()) {
+        alert("Please fill out all link fields.");
+        return;
+      }
+    }
+  
     try {
-      await handleCreateLinktree(treeName, links);
+      const payload = {
+        treeName,
+        links: links.map((link) => ({
+          title: link.title,
+          icon: link.icon ? "🔗" : null,
+          url: link.link,
+        })),
+      };
+  
+      console.log("Payload being sent:", payload);
+  
+      const response = await axios.post("http://localhost:8000/api/v1/link/create", payload);
+      console.log("Response:", response.data);
+  
+      // Save to localStorage so LinktreeTemplate can read it
+      localStorage.setItem("treeId", response.data.treeId || "1234");
       localStorage.setItem("treeName", treeName);
-      localStorage.setItem("links", JSON.stringify(links));
+      localStorage.setItem("links", JSON.stringify(payload.links));
+  
       navigate("/linktree-template");
     } catch (error) {
-      console.error("Error creating Linktree:", error);
-      alert("Failed to create Linktree. Please try again.");
+      if (error instanceof AxiosError) {
+        console.error("Axios Error creating Linktree:", error.response?.data || error.message);
+      } else {
+        console.error("Error creating Linktree:", error);
+      }
     }
   };
+  
 
   return (
-    <div className="mt-4 p-4 max-w-lg mx-auto bg-white rounded-lg">
+    <div className="max-w-lg mx-auto bg-white rounded-xl shadow-lg p-6">
+      <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Manage Links</h2>
       <div className="space-y-6">
         {/* Tree Name Input */}
-        <div className="mb-4">
-          <label className="block text-sm font-bold mb-2 text-gray-700">Tree Name</label>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Tree Name</label>
           <input
             type="text"
-            className="w-full px-4 py-2 border text-black border-black rounded-lg"
+            className="w-full px-4 py-2 border border-black rounded-lg focus:outline-none focus:ring-1 focus:ring-black"
             placeholder="Enter your Linktree name"
             value={treeName}
             onChange={(e) => setTreeName(e.target.value)}
@@ -64,10 +92,10 @@ const Form: React.FC<FormProps> = ({ links, setLinks }) => {
 
         {/* Links Input */}
         {links.map((link, index) => (
-          <div key={index} className="mb-4 border-b pb-4">
+          <div key={link.id} className="space-y-4 border-b pb-4">
             {/* Title Dropdown */}
-            <div className="mb-4">
-              <label className="block text-sm font-bold mb-2 text-gray-700">Title</label>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Title</label>
               <TitleDropdown
                 selectedTitle={link.title}
                 onTitleSelect={(title) => handleLinkChange(index, "title", title)}
@@ -75,20 +103,20 @@ const Form: React.FC<FormProps> = ({ links, setLinks }) => {
             </div>
 
             {/* Icon Dropdown */}
-            <div className="mb-4">
-              <label className="block text-sm font-bold mb-2 text-gray-700">Icon</label>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Icon</label>
               <IconDropdown
-                selectedIcon={link.icon}
-                onIconSelect={(iconName) => handleLinkChange(index, "icon", iconName)}
+                selectedIcon={link.icon ? { name: link.title, icon: link.icon } : null}
+                onIconSelect={(iconObj) => handleLinkChange(index, "icon", iconObj.icon)}
               />
             </div>
 
             {/* Link Input */}
-            <div className="mb-4">
-              <label className="block text-sm font-bold mb-2 text-gray-700">Link</label>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Link</label>
               <input
                 type="text"
-                className="w-full px-4 py-2 border text-black border-black rounded-lg"
+                className="w-full px-4 py-2 border border-black rounded-lg focus:outline-none focus:ring-1 focus:ring-black"
                 placeholder="Enter link"
                 value={link.link}
                 onChange={(e) => handleLinkChange(index, "link", e.target.value)}
@@ -97,19 +125,19 @@ const Form: React.FC<FormProps> = ({ links, setLinks }) => {
           </div>
         ))}
 
-        <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+        {/* Buttons */}
+        <div className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0 sm:space-x-4">
           <button
             type="button"
             onClick={handleAddLink}
-            className="flex items-center justify-center bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full md:w-auto"
+            className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300"
           >
             Add More Links
           </button>
-
           <button
             type="button"
-            onClick={handleCreateLinktreeClick}
-            className="flex items-center justify-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full md:w-auto"
+            onClick={handleCreateLinktree}
+            className="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300"
           >
             Create Linktree
           </button>

@@ -3,12 +3,26 @@ import { motion } from "framer-motion";
 import { deletelinktree } from "../services/deletelinktree";
 import { editLinktree } from "../services/editlinktree";
 import { useNavigate } from "react-router-dom";
+import { FaEdit, FaSave, FaTrash } from "react-icons/fa";
+import * as FaIcons from "react-icons/fa"; // Import all FontAwesome icons
 
 interface Link {
   title: string;
-  icon?: string;
+  icon?: string; // Icon stored as a string (e.g., "FaHome")
   url: string;
 }
+
+const DynamicIcon = ({ iconName }: { iconName?: string }) => {
+  console.log("Icon Name:", iconName); // Debugging: Log the icon name
+
+  if (!iconName || !(iconName in FaIcons)) {
+    console.log("Icon not found, using fallback icon"); // Debugging: Log when fallback is used
+    return <span className="text-xl">🔗</span>;
+  }
+
+  const IconComponent = FaIcons[iconName as keyof typeof FaIcons];
+  return <IconComponent className="text-xl text-blue-500" />;
+};
 
 const LinktreeTemplate: React.FC = () => {
   const navigate = useNavigate();
@@ -37,12 +51,12 @@ const LinktreeTemplate: React.FC = () => {
       const response = await editLinktree(data);
       console.log("Linktree updated successfully:", response);
 
-      // Update local storage
       localStorage.setItem("treeId", treeId);
       localStorage.setItem("treeName", treeName);
       localStorage.setItem("links", JSON.stringify(links));
 
       alert("Linktree updated successfully!");
+      setTreeId("");
       setIsEditing(false);
     } catch (error) {
       console.error("Error updating Linktree:", error);
@@ -62,12 +76,11 @@ const LinktreeTemplate: React.FC = () => {
     }
 
     try {
-      const result = await deletelinktree(treeId); // Call the delete function
-      setDeleteMessage(result.message); // Set success message from backend
-      navigate('/')
+      const result = await deletelinktree(treeId);
+      setDeleteMessage(result.message);
+      navigate('/');
       setDeleteError("");
 
-      // Clear local storage and reset state only if deletion is successful
       localStorage.removeItem("treeId");
       localStorage.removeItem("treeName");
       localStorage.removeItem("links");
@@ -77,7 +90,7 @@ const LinktreeTemplate: React.FC = () => {
       setShowDeleteConfirmation(false);
     } catch (error) {
       if (error instanceof Error) {
-        setDeleteError(error.message); // Set error message
+        setDeleteError(error.message);
       } else {
         setDeleteError("An unexpected error occurred.");
       }
@@ -85,12 +98,12 @@ const LinktreeTemplate: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-500 p-6">
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="max-w-xl w-full bg-white bg-opacity-20 backdrop-blur-lg shadow-2xl rounded-2xl p-6"
+        className="max-w-lg w-full bg-white backdrop-blur-md shadow-2xl rounded-2xl p-6"
       >
         {isEditing ? (
           <>
@@ -98,35 +111,33 @@ const LinktreeTemplate: React.FC = () => {
               type="text"
               value={treeId}
               onChange={(e) => setTreeId(e.target.value)}
-              className="text-lg font-bold text-center text-white border-b pb-2 mb-4 bg-transparent w-full outline-none"
+              className="text-lg font-bold text-center text-black border-b pb-2 mb-4 bg-transparent w-full outline-none"
               placeholder="Enter Tree ID"
             />
             <input
               type="text"
               value={treeName}
               onChange={(e) => setTreeName(e.target.value)}
-              className="text-3xl font-bold text-center text-white border-b pb-2 mb-6 bg-transparent w-full outline-none"
+              className="text-3xl font-bold text-center text-black bg-transparent w-full outline-none border-b focus:ring-2 focus:ring-white"
               placeholder="Enter Tree Name"
             />
           </>
         ) : (
-          <>
-            <motion.h2
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className="text-3xl font-bold text-center text-white border-b pb-2 mb-6"
-            >
-              {treeName}
-            </motion.h2>
-          </>
+          <motion.h2
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="text-3xl font-bold text-center border-b pb-2 mb-6"
+          >
+            {treeName}
+          </motion.h2>
         )}
 
-        <div className="space-y-4">
+        <div className="mt-6 space-y-4">
           {links.length > 0 ? (
             links.map((link, index) => (
-              <motion.div key={index} className="flex items-center p-4 bg-white bg-opacity-30 backdrop-blur-md rounded-xl shadow-lg transition">
-                <div className="w-12 h-12 flex items-center justify-center bg-white bg-opacity-40 rounded-full mr-4">
+              <motion.div key={index} className="p-4 bg-white bg-opacity-20 rounded-xl shadow-lg flex items-center transition hover:scale-105 hover:shadow-xl">
+                <div className="w-12 h-12 flex items-center justify-center bg-white rounded-full mr-4">
                   {isEditing ? (
                     <input
                       type="text"
@@ -136,11 +147,11 @@ const LinktreeTemplate: React.FC = () => {
                         updatedLinks[index].icon = e.target.value;
                         setLinks(updatedLinks);
                       }}
-                      className="text-xl bg-transparent w-full outline-none text-center"
+                      className="w-12 h-12 flex items-center justify-center bg-white rounded-full text-xl"
                       placeholder="Icon"
                     />
                   ) : (
-                    <span className="text-xl">{link.icon || "🔗"}</span>
+                    <DynamicIcon iconName={link.icon} />
                   )}
                 </div>
                 <div className="flex-1">
@@ -154,7 +165,7 @@ const LinktreeTemplate: React.FC = () => {
                           updatedLinks[index].title = e.target.value;
                           setLinks(updatedLinks);
                         }}
-                        className="text-lg font-semibold text-white bg-transparent border-b w-full outline-none"
+                        className="text-lg font-semibold text-black bg-transparent border-b w-full outline-none"
                         placeholder="Title"
                       />
                       <input
@@ -165,14 +176,25 @@ const LinktreeTemplate: React.FC = () => {
                           updatedLinks[index].url = e.target.value;
                           setLinks(updatedLinks);
                         }}
-                        className="text-sm text-blue-200 bg-transparent border-b w-full outline-none mt-2"
-                        placeholder="url"
+                        className="text-sm text-blue-400 bg-transparent border-b w-full outline-none mt-2"
+                        placeholder="URL"
+                      />
+                      <input
+                        type="text"
+                        value={link.icon || ""}
+                        onChange={(e) => {
+                          const updatedLinks = [...links];
+                          updatedLinks[index].icon = e.target.value;
+                          setLinks(updatedLinks);
+                        }}
+                        className="text-sm text-blue-400 bg-transparent border-b w-full outline-none mt-2"
+                        placeholder="🔗"
                       />
                     </>
                   ) : (
                     <>
-                      <h3 className="text-lg font-semibold text-white">{link.title}</h3>
-                      <p className="text-blue-200 break-all">{link.url}</p>
+                      <h3 className="text-lg font-semibold text-black">{link.title}</h3>
+                      <p className="text-blue-400 break-all">{link.url}</p>
                     </>
                   )}
                 </div>
@@ -182,36 +204,15 @@ const LinktreeTemplate: React.FC = () => {
             <motion.p className="text-white text-center">No links available</motion.p>
           )}
         </div>
-        {showDeleteConfirmation && (
-          <div className="mt-4">
-            <input
-              type="text"
-              value={deleteTreeIdInput}
-              onChange={(e) => setDeleteTreeIdInput(e.target.value)}
-              className="text-lg font-bold text-center text-white border-b pb-2 mb-4 bg-transparent w-full outline-none"
-              placeholder="Enter Tree ID to confirm deletion"
-            />
-          </div>
-        )}
+
         <div className="flex justify-center mt-6 space-x-4">
           {isEditing ? (
-            <button onClick={handleEdit} className="bg-green-500 text-white px-4 py-2 rounded-lg">
-              Save
-            </button>
+            <FaSave onClick={handleEdit} className="text-green-500 text-2xl cursor-pointer hover:text-blue-700" />
           ) : (
-            <button onClick={() => setIsEditing(true)} className="bg-blue-500 text-white px-4 py-2 rounded-lg">
-              Edit Linktree
-            </button>
+            <FaEdit onClick={() => setIsEditing(true)} className="text-orange-500 text-2xl cursor-pointer hover:text-blue-700" />
           )}
-          <button
-            onClick={handleDelete} 
-            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
-          >
-            Delete Linktree
-          </button>
+          <FaTrash onClick={handleDelete} className="text-red-500 text-2xl cursor-pointer hover:text-red-700" />
         </div>
-
-       
 
         {deleteMessage && <p className="text-green-500 text-center mt-4">{deleteMessage}</p>}
         {deleteError && <p className="text-red-500 text-center mt-4">{deleteError}</p>}

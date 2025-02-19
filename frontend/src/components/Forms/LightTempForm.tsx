@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LinkForm from "./Form";
+import Form from "./Form";
 import LightTemplate from "../../pages/Template/LightTemplate";
 
 interface ProfileInfo {
@@ -27,19 +27,19 @@ const LightTempForm: React.FC = () => {
   ]);
 
   return (
-    <div className="bg-gradient-to-r min-h-screen flex items-center justify-center p-6">
+    <div className="bg-gradient-to-r  min-h-screen flex items-center justify-center p-6">
       {/* Container */}
       <div className="flex flex-col lg:flex-row gap-8 w-full max-w-screen-lg bg-white rounded-lg shadow-lg overflow-hidden">
         {/* Left Side: Light Template */}
-        <div className="flex-1 p-6 lg:p-8  flex flex-col items-center justify-start">
+        <div className="flex-1 p-6 lg:p-8  flex flex-col items-center justify-start border-black">
           <LightTemplate profileInfo={profileInfo} links={links} />
         </div>
 
         {/* Right Side: Link Form */}
         <div className="flex-1 p-6 lg:p-8 ">
           <div className=" p-6 rounded-lg shadow-lg ">
-            <h2 className="text-2xl font-bold text-gray-800  text-center  mb-4">Manage Links</h2>
-            <LinkForm links={links} setLinks={setLinks} />
+            
+            <Form links={links} setLinks={setLinks} />
           </div>
         </div>
       </div>
